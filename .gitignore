@@ -28,3 +28,4 @@ bloomfilter.gob
 .config/
 pkg
 states
+build

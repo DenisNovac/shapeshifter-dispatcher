@@ -22,16 +22,36 @@
 
 rm -rf ./states
 
-./shapeshifter-dispatcher -generateConfig -transport starbridge -serverIP 127.0.0.1:20001
+./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 127.0.0.1:20001
 
 # dummy target server on port 3333
 nc -l 3333
 
 # proxy server
-./shapeshifter-dispatcher -transparent -server -state states/server -target 127.0.0.1:3333 -transports starbridge -bindaddr starbridge-127.0.0.1:20001 -optionsFile StarbridgeServerConfig.json -logLevel DEBUG -enableLogging
+./shapeshifter-dispatcher -transparent -server -state states/server -target 127.0.0.1:3333 -transports shadow -bindaddr shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
 
 # proxy client
-./shapeshifter-dispatcher -transparent -client -state states/client -transports starbridge -proxylistenaddr 127.0.0.1:4444 -optionsFile StarbridgeClientConfig.json -logLevel DEBUG -enableLogging
+./shapeshifter-dispatcher -transparent -client -state states/client -transports shadow -proxylistenaddr 127.0.0.1:4444 -optionsFile ShadowClientConfig.json -logLevel DEBUG -enableLogging
+
+# dummy client
+telnet 127.0.0.1 4444
+
+
+# 3.0.1
+
+
+rm -rf ./states
+
+./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 127.0.0.1:20001
+
+# dummy target server on port 3333
+nc -l 3333
+
+# proxy server
+./shapeshifter-dispatcher -transparent -server -state states/server -target 127.0.0.1:3333 -transports shadow -bindaddr shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
+
+# proxy client
+./shapeshifter-dispatcher -transparent -client -state states/client -transports shadow -proxylistenaddr 127.0.0.1:4444 -optionsFile ShadowClientConfig.json -logLevel DEBUG -enableLogging
 
 # dummy client
 telnet 127.0.0.1 4444
