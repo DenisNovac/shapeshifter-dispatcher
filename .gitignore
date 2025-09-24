@@ -22,3 +22,9 @@ shapeshifter-dispatcher
 bloomfilter.gob
 go.sum
 bloomfilter.gob
+
+# build ignore
+.bash_history
+.config/
+pkg
+states

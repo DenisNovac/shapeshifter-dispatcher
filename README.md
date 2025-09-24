@@ -1,3 +1,10 @@
+# Shapeshifter in Docker
+
+Original repo: https://github.com/OperatorFoundation/shapeshifter-dispatcher
+
+Original Dockerfile: https://github.com/MrKsey/shapeshifter-dispatcher
+
+
 ### The Operator Foundation
 
 [Operator](https://operatorfoundation.org) makes useable tools to help people around the world with censorship, security, and privacy.
