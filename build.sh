@@ -1,5 +1,5 @@
-# this is the last working version after last release 3.0.1
-git checkout b936dc8004db276a5b639bbe6377895284e8d8c9
+# it seems they broke it after that version
+git checkout ee69ff1fd3ac35e7fbfef16b711a464d90c94b02
 
 # run:
 docker run -it --rm -v "$(pwd)":/go --network host golang:tip-trixie go build -buildvcs=false

@@ -7,11 +7,10 @@
 # when changing transports
 # change options file accrodingly
 
-./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Shadow -bindaddr Shadow-0.0.0.0:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
+./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Shadow -bindaddr Shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
 
 
-./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Replicant -bindaddr Replicant-0.0.0.0:20001 -optionsFile ReplicantServerConfig.json -logLevel DEBUG -enableLogging
-
+./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Replicant -bindaddr Replicant-127.0.0.1:20001 -optionsFile ReplicantServerConfig.json -logLevel DEBUG -enableLogging
 
 
 
@@ -36,22 +35,3 @@ nc -l 3333
 # dummy client
 telnet 127.0.0.1 4444
 
-
-# 3.0.1
-
-
-rm -rf ./states
-
-./shapeshifter-dispatcher -generateConfig -transport shadow -serverIP 127.0.0.1:20001
-
-# dummy target server on port 3333
-nc -l 3333
-
-# proxy server
-./shapeshifter-dispatcher -transparent -server -state states/server -target 127.0.0.1:3333 -transports shadow -bindaddr shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
-
-# proxy client
-./shapeshifter-dispatcher -transparent -client -state states/client -transports shadow -proxylistenaddr 127.0.0.1:4444 -optionsFile ShadowClientConfig.json -logLevel DEBUG -enableLogging
-
-# dummy client
-telnet 127.0.0.1 4444
