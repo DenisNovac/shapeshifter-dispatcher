@@ -33,8 +33,6 @@ See run.sh for more useful commands.
 I was only able to run the Open Source OpenVPN client which supports SOCKS 5 proxy: https://github.com/OpenVPN/openvpn-gui 
 ("OpenVPN Connect" client doesn't support SOCKS5 and therefore doesn't work with Shapeshifter).
 
-Windows Client (see releases) compiled by @adedw from the same a12fe1420ef2e15f6bac16b7a4bc1c56c03af572 revision.
-
 See bat files for understanding how to run Windows clients.
 
 
