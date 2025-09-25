@@ -1,0 +1,56 @@
+services:
+
+  # don't forget get initial password from:
+  # docker compose logs -f vpn | grep pass
+  vpn:
+    image: openvpn/openvpn-as
+    container_name: vpn
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - MKNOD
+    ports:
+      - 20000:943 # admin ui, port to be disabled after setup
+      # don't need it because shapeshifter proxy would route to it through internal docker network
+      # - 443:443/tcp 
+      # - 1194:1194/udp
+    volumes:
+      - vpn-data:/openvpn
+    restart: unless-stopped
+    networks:
+      internal:
+        ipv4_address: 10.5.0.2 # vpn is not accessible from the outside
+
+
+  # to see client sertificate: docker compose logs -f
+  # to see additional logs: docker compose exec proxy cat /proxy-state/dispatcher.log
+  proxy:
+    image: denisnovac/shapeshifter
+    container_name: proxy
+    ports:
+     - 20001:20001 # same as LISTEN_HOST, also should be open on firewall
+    volumes:
+      - ./dockerState:/dockerState # see dockerState/run to modify run script, see run.sh to see examples
+      - vpn-data:/proxy-certs # certificates are persistent
+    environment:
+      - TARGET_URL=10.5.0.2:443 # while using network_mode = host it is stil accessible
+      - LISTEN_PORT=20001
+      - REAL_HOST_IP=192.168.1.7 # will be written into certificate, MUST BE THE ADDRESS PROXY WILL ACCEPT CONNECTIONS
+      # CHANGE NEW_CERTS TO FALSE AFTER CERTS ARE CREATED AND RESTART!!!
+      # RE-CREATING CERTS MEANS YOU WILL NEED TO PUT NEW KEYS ON YOUR CLIENTS EACH TIME!!!
+      - NEW_CERTS=true
+    restart: unless-stopped
+    network_mode: host # proxy is accessible from the outside
+
+volumes:
+  vpn-data:
+  proxy-data:
+
+networks:
+  internal:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1

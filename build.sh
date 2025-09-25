@@ -11,3 +11,7 @@ docker run -it --rm -v "$(pwd)":/go --network host golang:tip-trixie go build -b
 #go build
 
 chmod +x shapeshifter-dispatcher
+
+# see run.sh for examples of running
+
+docker build -t denisnovac/shapeshifter .

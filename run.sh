@@ -1,17 +1,29 @@
 
-
 # generate new config pairs
 ./shapeshifter-dispatcher -generateConfig -transport Shadow -serverIP 192.168.1.7:20001
-./shapeshifter-dispatcher -polish -toneburst -generateConfig -transport Replicant -serverIP 192.168.1.7:20001
 
 # when changing transports
 # change options file accrodingly
 
-./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Shadow -bindaddr Shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
+# the only way i was able to run it with openvpn is socks 5 mode
+./shapeshifter-dispatcher -server -mode socks5 -state state -target 127.0.0.1:443 -transports Shadow -bindaddr Shadow-127.0.0.1:20001 -optionsFile ShadowServerConfig.json -logLevel DEBUG -enableLogging
 
 
-./shapeshifter-dispatcher -transparent -server -state state -target 127.0.0.1:443 -transports Replicant -bindaddr Replicant-127.0.0.1:20001 -optionsFile ReplicantServerConfig.json -logLevel DEBUG -enableLogging
+# same with replicant:
 
+
+./shapeshifter-dispatcher -polish -toneburst -generateConfig -transport Replicant -serverIP 192.168.1.7:20001
+
+./shapeshifter-dispatcher -server -mode socks5 -state state -target 127.0.0.1:443 -transports Replicant -bindaddr Replicant-127.0.0.1:20001 -optionsFile ReplicantServerConfig.json -logLevel DEBUG -enableLogging
+
+
+# debug inside docker
+
+/usr/bin/shapeshifter-dispatcher -server -mode socks5 -state state -target vpn:443 -transports Replicant -bindaddr Replicant-0.0.0.0:20001 -optionsFile /proxy-certs/ReplicantServerConfig.json -logLevel DEBUG -enableLogging
+
+/usr/bin/shapeshifter-dispatcher -server -mode socks5 -state state -target vpn:443 -transports Shadow -bindaddr Shadow-0.0.0.0:20001 -optionsFile /proxy-certs/ShadowServerConfig.json -logLevel DEBUG -enableLogging
+
+/usr/bin/shapeshifter-dispatcher -generateConfig -transport Shadow -serverIP 192.168.1.7:20001
 
 
 
@@ -35,3 +47,32 @@ nc -l 3333
 # dummy client
 telnet 127.0.0.1 4444
 
+# some other usable stuff
+
+# to check listened ports:
+ss -tuln | grep tcp
+
+# to check machine ip
+ip -c a | grep inet
+
+# to setup ubuntu firewall
+ufw enable
+
+ufw default deny outgoing
+ufw default deny incoming
+
+ufw status verbose
+
+# specific ports doesn't need to be allowed, docker allows himself
+
+# ufw allow 20001
+# ufw allow 20000
+
+ufw reload
+
+# ufw allow out 20001
+
+ufw status numbered
+
+# disable rule with 20000 after vpn setup to prohibit admin ui usage
+# ufw delete N 

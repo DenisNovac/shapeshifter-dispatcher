@@ -1,8 +1,41 @@
 # Shapeshifter in Docker
 
+This project allows to run Shapeshifter (Obfsproxy) in Docker together with OpenVPN. It is configured in a way where
+OpenVPN doesn't have any open ports on the machine while Shapeshifter proxy is the only input point.
+
 Original repo: https://github.com/OperatorFoundation/shapeshifter-dispatcher
 
 Original Dockerfile: https://github.com/MrKsey/shapeshifter-dispatcher
+
+How to build/run it:
+
+```
+# checkout will remove THIS file, copypaste the first commands until checkout main
+# for some reason this is the only working revision https://github.com/OperatorFoundation/shapeshifter-dispatcher/issues/53
+git checkout a12fe1420ef2e15f6bac16b7a4bc1c56c03af572
+
+docker run -it --rm -v "$(pwd)":/go --network host golang:tip-trixie go build -buildvcs=false
+
+git checkout main
+
+docker build -t denisnovac/shapeshifter .
+
+# see dockerState/run.sh for running scripts
+
+docker compose up -d
+
+# see client certificates (put them on client side in json files):
+docker compose logs -f
+```
+
+See run.sh for more useful commands.
+
+I was only able to run the Open Source OpenVPN client which supports SOCKS 5 proxy: https://github.com/OpenVPN/openvpn-gui 
+("OpenVPN Connect" client doesn't support SOCKS5 and therefore doesn't work with Shapeshifter).
+
+Windows Client (see releases) compiled by @adedw from the same a12fe1420ef2e15f6bac16b7a4bc1c56c03af572 revision.
+
+See bat files for understanding how to run Windows clients.
 
 
 ### The Operator Foundation
