@@ -36,6 +36,10 @@ I was only able to run the Open Source OpenVPN client which supports SOCKS 5 pro
 See bat files for understanding how to run Windows clients.
 
 
+
+
+### original readme with copyrights and everything:
+
 ### The Operator Foundation
 
 [Operator](https://operatorfoundation.org) makes useable tools to help people around the world with censorship, security, and privacy.
