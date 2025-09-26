@@ -7,6 +7,8 @@ Original repo: https://github.com/OperatorFoundation/shapeshifter-dispatcher
 
 Original Dockerfile: https://github.com/MrKsey/shapeshifter-dispatcher
 
+Prebuilt Docker image: https://hub.docker.com/repository/docker/denisnovac/shapeshifter/general
+
 How to build/run it:
 
 ```
