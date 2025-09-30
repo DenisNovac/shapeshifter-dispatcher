@@ -7,6 +7,8 @@ Original repo: https://github.com/OperatorFoundation/shapeshifter-dispatcher
 
 Original Dockerfile: https://github.com/MrKsey/shapeshifter-dispatcher
 
+See docker-compose vpn project: https://github.com/DenisNovac/stealth-vpn
+
 How to build/run it:
 
 ```
@@ -19,23 +21,11 @@ docker run -it --rm -v "$(pwd)":/go --network host golang:tip-trixie go build -b
 git checkout main
 
 docker build -t denisnovac/shapeshifter .
-
-# see dockerState/run.sh for running scripts
-
-docker compose up -d
-
-# see client certificates (put them on client side in json files):
-docker compose logs -f
 ```
 
 See run.sh for more useful commands.
 
-I was only able to run the Open Source OpenVPN client which supports SOCKS 5 proxy: https://github.com/OpenVPN/openvpn-gui 
-("OpenVPN Connect" client doesn't support SOCKS5 and therefore doesn't work with Shapeshifter).
-
 See bat files for understanding how to run Windows clients.
-
-
 
 
 ### original readme with copyrights and everything:

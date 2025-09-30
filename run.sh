@@ -56,10 +56,17 @@ ss -tuln | grep tcp
 ip -c a | grep inet
 
 # to setup ubuntu firewall
-ufw enable
-
-ufw default deny outgoing
+ufw allow ssh
+ufw default allow outgoing
 ufw default deny incoming
+ufw allow 443
+ufw allow 20000
+
+ufw enable
+ufw reload
+
+ufw deny 20000
+ufw reload
 
 ufw status verbose
 
@@ -68,7 +75,6 @@ ufw status verbose
 # ufw allow 20001
 # ufw allow 20000
 
-ufw reload
 
 # ufw allow out 20001
 
